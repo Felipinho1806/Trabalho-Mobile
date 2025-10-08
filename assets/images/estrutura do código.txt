@@ -1,0 +1,51 @@
+lib/
+│
+├── main.dart                 # Ponto de entrada do app
+│
+├── app/                      # Configurações globais do app|
+│
+│   ├── app_widget.dart       # Widget principal (MaterialApp)
+│   ├── app_routes.dart       # Gerenciamento de rotas
+│   └── app_theme.dart        # Temas, cores, estilos
+│
+├── core/                     # Camada genérica e utilitários
+│
+│   ├── constants/            # Constantes globais
+│   ├── services/             # Serviços (notificações, auth, API, etc.)
+│   ├── utils/                # Funções auxiliares
+│   └── widgets/              # Widgets compartilhados (botões, inputs, etc.)
+│
+├── data/                     # Camada de dados
+│
+│   ├── models/               # Modelos (Task, Habit, Progress, etc.)
+│   ├── repositories/         # Regras de acesso a dados (DB, APIs, etc.)
+│   └── datasources/          # Fontes de dados (SQLite, Firebase, REST API)
+│
+├── modules/                  # Funcionalidades do app
+│
+│   ├── tasks/                # Módulo de tarefas
+│   │   ├── view/             # Telas (UI - Views)
+│   │   ├── viewmodel/        # Lógica de estado (ViewModels)
+│   │   └── widgets/          # Widgets específicos (lista de tarefas, etc.)
+│   │
+│   ├── habits/               # Módulo de hábitos
+│
+│   │   ├── view/
+│   │   ├── viewmodel/
+│   │   └── widgets/
+│   │
+│   ├── progress/             # Módulo de progresso/histórico
+│
+│   │   ├── view/
+│   │   ├── viewmodel/
+│   │   └── widgets/
+│   │
+│   └── focus/                # Módulo de foco (ex: Pomodoro)
+│
+│       ├── view/
+│       ├── viewmodel/
+│       └── widgets/
+│
+└── shared/                   # Recursos compartilhados
+    ├── styles/               # TextStyles, ThemeData extras
+    └── widgets/              # Componentes reutilizáveis
