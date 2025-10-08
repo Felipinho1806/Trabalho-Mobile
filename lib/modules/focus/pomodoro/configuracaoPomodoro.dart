@@ -1,10 +1,75 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart'; // ⬅️ IMPORT NECESSÁRIO PARA O ESTILO DA FONTE
-import 'package:teste1/modules/focus/pomodoro/timerPomodoro.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'timerPomodoro.dart'; 
 
-
-class ConfiguracaoPomodoro extends StatelessWidget {
+class ConfiguracaoPomodoro extends StatefulWidget {
   const ConfiguracaoPomodoro({super.key});
+
+  @override
+  State<ConfiguracaoPomodoro> createState() => _ConfiguracaoPomodoroState();
+}
+
+class _ConfiguracaoPomodoroState extends State<ConfiguracaoPomodoro> {
+  final TextEditingController _focoController = TextEditingController(text: '25'); // Padrão: 25 minutos
+  final TextEditingController _descansoController = TextEditingController(text: '5');  // Padrão: 5 minutos
+
+  @override
+  void dispose() {
+    _focoController.dispose();
+    _descansoController.dispose();
+    super.dispose();
+  }
+
+  void _iniciarPomodoro() {
+    final int focoMinutos = int.tryParse(_focoController.text) ?? 25;
+    final int descansoMinutos = int.tryParse(_descansoController.text) ?? 5;
+
+    final int minutosEstudo = focoMinutos < 1 ? 25 : focoMinutos;
+    final int minutosDescanso = descansoMinutos < 1 ? 5 : descansoMinutos;
+
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => Timerpomodoro(
+          studyMinutes: minutosEstudo,
+          breakMinutes: minutosDescanso,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTimeField({
+    required String label, 
+    required TextEditingController controller, 
+    required String hint
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: GoogleFonts.poppins(fontSize: 18, color: Colors.white),
+        ),
+        const SizedBox(height: 8),
+        TextField(
+          controller: controller,
+          keyboardType: TextInputType.number,
+          decoration: InputDecoration(
+            hintText: hint,
+            hintStyle: GoogleFonts.poppins(color: Colors.white70),
+            filled: true,
+            fillColor: Colors.white.withOpacity(0.2),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(30),
+              borderSide: BorderSide.none,
+            ),
+          ),
+          style: const TextStyle(color: Colors.white),
+        ),
+      ],
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,26 +100,18 @@ class ConfiguracaoPomodoro extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'Duração do Foco (Minutos):', 
-                  style: GoogleFonts.poppins(fontSize: 18, color: Colors.white),
+                _buildTimeField(
+                  label: 'Duração do Foco (Minutos):',
+                  controller: _focoController,
+                  hint: '25',
                 ),
                 
-                const SizedBox(height: 8),
-
-                TextField(
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    hintText: "25",
-                    hintStyle: GoogleFonts.poppins(color: Colors.white70),
-                    filled: true,
-                    fillColor: Colors.white.withOpacity(0.2),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30),
-                      borderSide: BorderSide.none,
-                    ),
-                  ),
-                  style: const TextStyle(color: Colors.white),
+                const SizedBox(height: 30),
+                
+                _buildTimeField(
+                  label: 'Duração do Descanso (Minutos):',
+                  controller: _descansoController,
+                  hint: '5',
                 ),
                 
                 const SizedBox(height: 50), 
@@ -70,14 +127,7 @@ class ConfiguracaoPomodoro extends StatelessWidget {
                       ),
                       elevation: 0, 
                     ),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => Timerpomodoro(),
-                        ),
-                      );
-                    },
+                    onPressed: _iniciarPomodoro, 
                     icon: const Icon(Icons.timer, color: Colors.white),
                     label: Text(
                       'Iniciar Pomodoro',
