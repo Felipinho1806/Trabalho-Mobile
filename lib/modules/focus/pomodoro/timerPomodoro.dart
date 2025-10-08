@@ -1,23 +1,85 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Timerpomodoro extends StatelessWidget {
+  const Timerpomodoro({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Timer Pomodoro'),
+    return Container(
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          colors: [Color(0xFF007BFF), Color(0xFF6A0DAD)], 
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+        ),
       ),
-      body: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA:',
-              style: TextStyle(fontSize: 18),
+      child: Scaffold(
+        backgroundColor: Colors.transparent, 
+        
+        appBar: AppBar(
+          title: Text(
+            'Timer Pomodoro', 
+            style: GoogleFonts.poppins(color: Colors.white) 
+          ),
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          iconTheme: const IconThemeData(color: Colors.white), 
+        ),
+        
+        body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(24.0), 
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA:',
+                  style: GoogleFonts.poppins(fontSize: 18, color: Colors.white),
+                ),
+                
+                const SizedBox(height: 8),
+
+                TextField(
+                  decoration: InputDecoration(
+                    hintText: "Placeholder",
+                    hintStyle: GoogleFonts.poppins(color: Colors.white70),
+                    filled: true,
+                    fillColor: Colors.white.withOpacity(0.2), 
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(30),
+                      borderSide: BorderSide.none,
+                    ),
+                  ),
+                  style: const TextStyle(color: Colors.white),
+                ), 
+                
+                // Exemplo de botão no estilo
+                const SizedBox(height: 50),
+                 SizedBox(
+                    width: double.infinity,
+                    height: 50,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white.withOpacity(0.2),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        elevation: 0,
+                      ),
+                      onPressed: () {},
+                      child: Text(
+                        "Botão de Ação",
+                        style: GoogleFonts.poppins(
+                          fontSize: 18,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+              ],
             ),
-            TextField(), 
-          ],
+          ),
         ),
       ),
     );
