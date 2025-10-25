@@ -7,6 +7,7 @@ class RegisterScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true, // evita overflow quando o teclado abre
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
@@ -16,114 +17,107 @@ class RegisterScreen extends StatelessWidget {
           ),
         ),
         child: SafeArea(
-          child: Padding(
+          child: SingleChildScrollView(
             padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                // Parte superior
-                Column(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                minHeight: MediaQuery.of(context).size.height -
+                    MediaQuery.of(context).padding.top -
+                    MediaQuery.of(context).padding.bottom,
+              ),
+              child: IntrinsicHeight(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const SizedBox(height: 40),
-                    Image.asset('assets/images/logo.png', height: 100),
-                    const SizedBox(height: 16),
-                    Text(
-                      "Cadastre-se",
-                      style: GoogleFonts.poppins(
-                        fontSize: 32,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    ),
-                    const SizedBox(height: 30),
-
-                    // Nome completo
-                    _buildTextField("Nome completo", Icons.person),
-
-                    const SizedBox(height: 16),
-
-                    // E-mail
-                    _buildTextField("E-mail", Icons.email),
-
-                    const SizedBox(height: 16),
-
-                    // Senha
-                    _buildTextField("Senha", Icons.lock, obscure: true),
-
-                    const SizedBox(height: 16),
-
-                    // Confirmar senha
-                    _buildTextField("Confirmar senha", Icons.lock, obscure: true),
-
-                    const SizedBox(height: 16),
-
-                    // Meta diária
-                    _buildTextField("Meta diária (em horas)", Icons.timer),
-
-                    const SizedBox(height: 16),
-
-                    // Área de interesse
-                    _buildTextField("Área de interesse", Icons.track_changes),
-                  ],
-                ),
-
-                // Parte inferior
-                Column(
-                  children: [
-                    const SizedBox(height: 20),
-
-                    // Botão Cadastrar
-                    SizedBox(
-                      width: double.infinity,
-                      height: 50,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.white.withOpacity(0.2),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                        ),
-                        onPressed: () {
-                          // ação futura: cadastro
-                        },
-                        child: Text(
-                          "Cadastrar",
+                    // Parte superior
+                    Column(
+                      children: [
+                        const SizedBox(height: 40),
+                        Image.asset('assets/images/logo.png', height: 100),
+                        const SizedBox(height: 16),
+                        Text(
+                          "Cadastre-se",
                           style: GoogleFonts.poppins(
-                            fontSize: 18,
+                            fontSize: 32,
+                            fontWeight: FontWeight.bold,
                             color: Colors.white,
                           ),
                         ),
-                      ),
+                        const SizedBox(height: 30),
+
+                        _buildTextField("Nome completo", Icons.person),
+                        const SizedBox(height: 16),
+
+                        _buildTextField("E-mail", Icons.email),
+                        const SizedBox(height: 16),
+
+                        _buildTextField("Senha", Icons.lock, obscure: true),
+                        const SizedBox(height: 16),
+
+                        _buildTextField("Confirmar senha", Icons.lock, obscure: true),
+                        const SizedBox(height: 16),
+
+                        _buildTextField("Meta diária (em horas)", Icons.timer),
+                        const SizedBox(height: 16),
+
+                        _buildTextField("Área de interesse", Icons.track_changes),
+                      ],
                     ),
 
-                    const SizedBox(height: 16),
-
-                    // Botão Voltar ao Login
-                    SizedBox(
-                      width: double.infinity,
-                      height: 50,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
+                    // Parte inferior
+                    Column(
+                      children: [
+                        const SizedBox(height: 20),
+                        SizedBox(
+                          width: double.infinity,
+                          height: 50,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.white.withOpacity(0.2),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30),
+                              ),
+                            ),
+                            onPressed: () {
+                              // ação futura: cadastro
+                            },
+                            child: Text(
+                              "Cadastrar",
+                              style: GoogleFonts.poppins(
+                                fontSize: 18,
+                                color: Colors.white,
+                              ),
+                            ),
                           ),
                         ),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: Text(
-                          "Voltar ao Login",
-                          style: GoogleFonts.poppins(
-                            fontSize: 16,
-                            color: Colors.black87,
+                        const SizedBox(height: 16),
+                        SizedBox(
+                          width: double.infinity,
+                          height: 50,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30),
+                              ),
+                            ),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: Text(
+                              "Voltar ao Login",
+                              style: GoogleFonts.poppins(
+                                fontSize: 16,
+                                color: Colors.black87,
+                              ),
+                            ),
                           ),
                         ),
-                      ),
+                      ],
                     ),
                   ],
                 ),
-              ],
+              ),
             ),
           ),
         ),
@@ -131,7 +125,6 @@ class RegisterScreen extends StatelessWidget {
     );
   }
 
-  // Método auxiliar para criar campos
   Widget _buildTextField(String hint, IconData icon, {bool obscure = false}) {
     return TextField(
       obscureText: obscure,
