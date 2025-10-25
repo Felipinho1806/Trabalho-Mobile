@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 
+enum BreathPhase { inspire, expire }
+
 class MeditationScreen extends StatefulWidget {
   const MeditationScreen({super.key});
 
@@ -18,7 +20,8 @@ class _MeditationScreenState extends State<MeditationScreen>
   late AnimationController _controller;
   late Animation<double> _animation;
 
-  String displayText = "Começar"; 
+  String displayText = "Começar";
+  BreathPhase currentPhase = BreathPhase.inspire;
 
   @override
   void initState() {
@@ -30,23 +33,20 @@ class _MeditationScreenState extends State<MeditationScreen>
     );
 
     _animation = Tween<double>(begin: 0.8, end: 1.2).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: Curves.easeInOut,
-      ),
+      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
     );
 
     _controller.addStatusListener((status) {
-      if (isRunning) {
-        setState(() {
-          if (status == AnimationStatus.completed) {
-            displayText = "Expire"; 
-            _controller.reverse();
-          } else if (status == AnimationStatus.dismissed) {
-            displayText = "Inspire";
-            _controller.forward();
-          }
-        });
+      if (!isRunning) return;
+
+      if (status == AnimationStatus.completed) {
+        currentPhase = BreathPhase.expire;
+        setState(() => displayText = "Expire");
+        _controller.reverse();
+      } else if (status == AnimationStatus.dismissed) {
+        currentPhase = BreathPhase.inspire;
+        setState(() => displayText = "Inspire");
+        _controller.forward();
       }
     });
   }
@@ -57,12 +57,10 @@ class _MeditationScreenState extends State<MeditationScreen>
         seconds++;
       });
     });
-    _controller.forward();
   }
 
   void stopTimer() {
     timer?.cancel();
-    _controller.stop();
   }
 
   void toggleMeditation() {
@@ -70,15 +68,26 @@ class _MeditationScreenState extends State<MeditationScreen>
       if (!hasStarted) {
         hasStarted = true;
         isRunning = true;
-        displayText = "Respire";
+        currentPhase = BreathPhase.inspire;
+        displayText = "Inspire";
+        _controller.forward(from: 0);
         startTimer();
       } else if (isRunning) {
         isRunning = false;
         displayText = "Pausado";
+        _controller.stop(canceled: false);
         stopTimer();
       } else {
         isRunning = true;
-        displayText = "Respire";
+        displayText =
+            currentPhase == BreathPhase.inspire ? "Inspire" : "Expire";
+
+        if (currentPhase == BreathPhase.inspire) {
+          _controller.forward(from: _controller.value);
+        } else {
+          _controller.reverse(from: _controller.value);
+        }
+
         startTimer();
       }
     });
