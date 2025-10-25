@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
+import 'package:teste1/modules/focus/distra%C3%A7%C3%A3o/distracao.dart';
 import 'package:teste1/modules/focus/game/escolhaJogos.dart';
 import 'package:teste1/modules/focus/medita%C3%A7%C3%A3o/meditacao.dart';
 
@@ -94,8 +95,16 @@ class FocusHome extends StatelessWidget {
                   ),
                   _buildOption(
                     icon: Icons.mood,
-                    title: "Descompressão",
+                    title: "Distração",
                     delay: 200,
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const DistractionScreen(),
+                        ),
+                      );
+                    },
                   ),
                   _buildOption(
                     icon: Icons.extension,
