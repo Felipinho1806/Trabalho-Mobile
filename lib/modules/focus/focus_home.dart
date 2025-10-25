@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:teste1/modules/focus/game/escolhaJogos.dart';
+import 'package:teste1/modules/focus/medita%C3%A7%C3%A3o/meditacao.dart';
 
 // import correto para a tela do Pomodoro
 import '/modules/focus/pomodoro/configuracaoPomodoro.dart';
@@ -82,6 +83,14 @@ class FocusHome extends StatelessWidget {
                     icon: Icons.self_improvement,
                     title: "Meditação",
                     delay: 100,
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const MeditationScreen(),
+                        ),
+                      );
+                    },
                   ),
                   _buildOption(
                     icon: Icons.mood,
