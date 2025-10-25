@@ -95,7 +95,6 @@ class _MemoryGameScreenState extends State<MemoryGameScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // Remove o appbar padrão e adiciona o header no estilo do app
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
@@ -107,7 +106,6 @@ class _MemoryGameScreenState extends State<MemoryGameScreen> {
         child: SafeArea(
           child: Column(
             children: [
-              // Cabeçalho estilizado
               Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Row(
@@ -131,7 +129,6 @@ class _MemoryGameScreenState extends State<MemoryGameScreen> {
 
               const SizedBox(height: 8),
 
-              // Área do jogo
               Expanded(
                 child: Container(
                   margin: const EdgeInsets.all(16),

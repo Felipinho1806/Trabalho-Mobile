@@ -7,13 +7,11 @@ class CheckersGameScreen extends StatefulWidget {
   _CheckersGameScreenState createState() => _CheckersGameScreenState();
 }
 
-// Tipo de peça
 enum PieceType { normal, king }
 
-// Classe peça
 class Piece {
   PieceType type;
-  Color color; // Colors.red ou Colors.black
+  Color color; 
 
   Piece(this.color, {this.type = PieceType.normal});
 }
@@ -67,14 +65,12 @@ class _CheckersGameScreenState extends State<CheckersGameScreen> {
           board[row][col] = selectedPiece;
           board[sRow][sCol] = null;
 
-          // Captura simples
           if ((row - sRow).abs() == 2) {
             int capRow = (row + sRow) ~/ 2;
             int capCol = (col + sCol) ~/ 2;
             board[capRow][capCol] = null;
           }
 
-          // Promoção a dama
           if (board[row][col]!.type == PieceType.normal) {
             if (board[row][col]!.color == Colors.red && row == 0) {
               board[row][col]!.type = PieceType.king;
@@ -84,7 +80,6 @@ class _CheckersGameScreenState extends State<CheckersGameScreen> {
             }
           }
 
-          // Alterna jogador
           currentPlayer = currentPlayer == Colors.red ? Colors.black : Colors.red;
           selectedRow = null;
           selectedCol = null;
@@ -109,16 +104,13 @@ class _CheckersGameScreenState extends State<CheckersGameScreen> {
     int rowDiff = dRow - sRow;
     int colDiff = (dCol - sCol).abs();
 
-    // Movimento diagonal
     if (colDiff != rowDiff.abs() || (colDiff != 1 && colDiff != 2)) return false;
 
-    // Movimento normal
     if (piece.type == PieceType.normal) {
       if (piece.color == Colors.red && rowDiff >= 0) return false;
       if (piece.color == Colors.black && rowDiff <= 0) return false;
     }
 
-    // Captura
     if (colDiff == 2) {
       int midRow = (sRow + dRow) ~/ 2;
       int midCol = (sCol + dCol) ~/ 2;

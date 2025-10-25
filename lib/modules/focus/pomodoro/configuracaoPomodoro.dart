@@ -10,8 +10,8 @@ class ConfiguracaoPomodoro extends StatefulWidget {
 }
 
 class _ConfiguracaoPomodoroState extends State<ConfiguracaoPomodoro> {
-  final TextEditingController _focoController = TextEditingController(text: '25'); // Padrão: 25 minutos
-  final TextEditingController _descansoController = TextEditingController(text: '5');  // Padrão: 5 minutos
+  final TextEditingController _focoController = TextEditingController(text: '25'); 
+  final TextEditingController _descansoController = TextEditingController(text: '5');  
 
   @override
   void dispose() {

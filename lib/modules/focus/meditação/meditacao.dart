@@ -11,7 +11,7 @@ class MeditationScreen extends StatefulWidget {
 class _MeditationScreenState extends State<MeditationScreen>
     with SingleTickerProviderStateMixin {
   bool isRunning = false;
-  bool hasStarted = false; // Novo estado para controle inicial
+  bool hasStarted = false;
   int seconds = 0;
   Timer? timer;
 

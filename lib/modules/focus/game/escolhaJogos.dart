@@ -55,7 +55,7 @@ class FocusGamesScreen extends StatelessWidget {
                   ),
                   _buildGameOption(
                     context,
-                    icon: Icons.sports_esports, // ícone genérico para damas
+                    icon: Icons.sports_esports, 
                     title: "Damas 2 Players",
                     delay: 100,
                     onTap: () {
