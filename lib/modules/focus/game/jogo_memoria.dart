@@ -58,7 +58,7 @@ class _MemoryGameScreenState extends State<MemoryGameScreen> {
         backgroundColor: Colors.white.withOpacity(0.9),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: Text(
-          "🎉 Parabéns!",
+          "Parabéns!",
           style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
         ),
         content: Text(
