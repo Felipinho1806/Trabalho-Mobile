@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class MemoryGameScreen extends StatefulWidget {
   const MemoryGameScreen({super.key});
@@ -34,7 +35,6 @@ class _MemoryGameScreenState extends State<MemoryGameScreen> {
       final second = _flippedIndexes[1];
 
       if (_cards[first] == _cards[second]) {
-        // Par encontrado
         setState(() {
           _matchedIndexes.addAll(_flippedIndexes);
           _flippedIndexes.clear();
@@ -44,7 +44,6 @@ class _MemoryGameScreenState extends State<MemoryGameScreen> {
           Future.delayed(const Duration(milliseconds: 400), _showGameOver);
         }
       } else {
-        // Não combinou → vira de volta
         Future.delayed(const Duration(seconds: 1), () {
           setState(() => _flippedIndexes.clear());
         });
@@ -56,7 +55,16 @@ class _MemoryGameScreenState extends State<MemoryGameScreen> {
     showDialog(
       context: context,
       builder: (_) => AlertDialog(
-        title: const Text("🎉 Parabéns! Você venceu!"),
+        backgroundColor: Colors.white.withOpacity(0.9),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        title: Text(
+          "🎉 Parabéns!",
+          style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
+        ),
+        content: Text(
+          "Você encontrou todos os pares!",
+          style: GoogleFonts.poppins(),
+        ),
         actions: [
           TextButton(
             onPressed: () {
@@ -67,11 +75,17 @@ class _MemoryGameScreenState extends State<MemoryGameScreen> {
                 _matchedIndexes.clear();
               });
             },
-            child: const Text("Jogar novamente"),
+            child: Text(
+              "Jogar novamente",
+              style: GoogleFonts.poppins(color: const Color(0xFF5E8BFF)),
+            ),
           ),
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text("Sair"),
+            child: Text(
+              "Sair",
+              style: GoogleFonts.poppins(color: Colors.redAccent),
+            ),
           ),
         ],
       ),
@@ -81,48 +95,105 @@ class _MemoryGameScreenState extends State<MemoryGameScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Jogo da Memória"),
-        backgroundColor: const Color(0xFF4A8CFF),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: GridView.builder(
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 4,
-            crossAxisSpacing: 8,
-            mainAxisSpacing: 8,
+      // Remove o appbar padrão e adiciona o header no estilo do app
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xFF5E8BFF), Color(0xFF6FA7FF)],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
           ),
-          itemCount: _cards.length,
-          itemBuilder: (context, index) {
-            final isFlipped =
-                _flippedIndexes.contains(index) || _matchedIndexes.contains(index);
-
-            return GestureDetector(
-              onTap: () => _flipCard(index),
-              child: AnimatedContainer(
-                duration: const Duration(milliseconds: 300),
-                decoration: BoxDecoration(
-                  color: isFlipped ? Colors.white : const Color(0xFF4A8CFF),
-                  borderRadius: BorderRadius.circular(10),
-                  boxShadow: [
-                    BoxShadow(color: Colors.black26, blurRadius: 5),
+        ),
+        child: SafeArea(
+          child: Column(
+            children: [
+              // Cabeçalho estilizado
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Row(
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.arrow_back, color: Colors.white),
+                      onPressed: () => Navigator.pop(context),
+                    ),
+                    const SizedBox(width: 8),
+                    Text(
+                      "Jogo da Memória",
+                      style: GoogleFonts.poppins(
+                        color: Colors.white,
+                        fontSize: 22,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                   ],
                 ),
-                child: Center(
-                  child: isFlipped
-                      ? Text(
-                          _cards[index],
-                          style: const TextStyle(fontSize: 40),
-                        )
-                      : const Text(
-                          "❓",
-                          style: TextStyle(fontSize: 28, color: Colors.white),
+              ),
+
+              const SizedBox(height: 8),
+
+              // Área do jogo
+              Expanded(
+                child: Container(
+                  margin: const EdgeInsets.all(16),
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.8),
+                    borderRadius: BorderRadius.circular(20),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.1),
+                        blurRadius: 6,
+                        offset: const Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  child: GridView.builder(
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 4,
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 10,
+                    ),
+                    itemCount: _cards.length,
+                    itemBuilder: (context, index) {
+                      final isFlipped = _flippedIndexes.contains(index) ||
+                          _matchedIndexes.contains(index);
+
+                      return GestureDetector(
+                        onTap: () => _flipCard(index),
+                        child: AnimatedContainer(
+                          duration: const Duration(milliseconds: 300),
+                          decoration: BoxDecoration(
+                            color: isFlipped
+                                ? Colors.white
+                                : const Color(0xFF5E8BFF),
+                            borderRadius: BorderRadius.circular(12),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black26.withOpacity(0.1),
+                                blurRadius: 4,
+                              ),
+                            ],
+                          ),
+                          child: Center(
+                            child: Text(
+                              isFlipped ? _cards[index] : "❓",
+                              style: TextStyle(
+                                fontSize: isFlipped ? 36 : 28,
+                                color: isFlipped
+                                    ? Colors.black87
+                                    : Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
                         ),
+                      );
+                    },
+                  ),
                 ),
               ),
-            );
-          },
+            ],
+          ),
         ),
       ),
     );
