@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
-import 'package:teste1/modules/focus/game/jogo_memoria.dart';
+import 'package:teste1/modules/focus/game/escolhaJogos.dart';
 
 // import correto para a tela do Pomodoro
 import '/modules/focus/pomodoro/configuracaoPomodoro.dart';
@@ -96,7 +96,7 @@ class FocusHome extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const MemoryGameScreen(), 
+                          builder: (context) => const FocusGamesScreen(),
                         ),
                       );
                     },
