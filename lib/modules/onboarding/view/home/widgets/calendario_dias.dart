@@ -1,19 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart'; 
 
 class WeekSelector extends StatelessWidget {
   const WeekSelector({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final now = DateTime.now();
+
+    final int dartWeekday = now.weekday; 
+
+    final todayIndex = dartWeekday % 7; 
+
     final days = ["D", "S", "T", "Q", "Q", "S", "S"];
-    final todayIndex = 3; // "Q"
+
+    final dateFormatter = DateFormat("EEEE, dd MMM yyyy", "pt_BR");
+    final formattedDate = dateFormatter.format(now);
+    
+    final capitalizedFormattedDate = 
+        formattedDate[0].toUpperCase() + formattedDate.substring(1);
 
     return Column(
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: List.generate(days.length, (index) {
-            final isToday = index == todayIndex;
+            final isToday = index == todayIndex; 
             return CircleAvatar(
               backgroundColor:
                   isToday ? const Color(0xFF5E8BFF) : Colors.grey[300],
@@ -30,7 +42,7 @@ class WeekSelector extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         Text(
-          "Quarta, 16 out 2025",
+          capitalizedFormattedDate, 
           style: TextStyle(color: Colors.grey[700]),
         ),
       ],
