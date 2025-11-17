@@ -58,7 +58,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               Column(
                 children: [
                   const SizedBox(height: 40),
-                  Image.asset('assets/images/logo.png', height: 120),
+                  Image.asset('assets/images/logo.png', height: 320),
                   const SizedBox(height: 20),
                   Text(
                     "Daily XP",

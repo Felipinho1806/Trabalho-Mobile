@@ -75,7 +75,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   children: [
                     const SizedBox(height: 40),
                     // Ajuste o caminho da imagem se necessário
-                    Image.asset('assets/images/logo.png', height: 120),
+                    Image.asset('assets/images/logo.png', height: 320),
                     const SizedBox(height: 20),
                     Text(
                       "Daily XP",
