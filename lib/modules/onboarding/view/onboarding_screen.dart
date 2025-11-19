@@ -63,7 +63,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   Text(
                     "Daily XP",
                     style: GoogleFonts.poppins(
-                      fontSize: 40,
+                      fontSize: 60,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
                     ),

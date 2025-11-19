@@ -80,7 +80,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     Text(
                       "Daily XP",
                       style: GoogleFonts.poppins(
-                        fontSize: 40,
+                        fontSize: 60,
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
                       ),
