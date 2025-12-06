@@ -1,10 +1,19 @@
 import 'package:flutter/material.dart';
 
 class ProgressCard extends StatelessWidget {
-  const ProgressCard({super.key});
+  final int total;
+  final int feitas;
+
+  const ProgressCard({
+    super.key,
+    required this.total,
+    required this.feitas,
+  });
 
   @override
   Widget build(BuildContext context) {
+    double porcentagem = total == 0 ? 0 : feitas / total;
+
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -14,10 +23,10 @@ class ProgressCard extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const Expanded(
+          Expanded(
             child: Text(
-              "Tarefas: 0 / 10",
-              style: TextStyle(color: Colors.white, fontSize: 18),
+              "Tarefas: $feitas / $total",
+              style: const TextStyle(color: Colors.white, fontSize: 18),
             ),
           ),
           Stack(
@@ -27,15 +36,15 @@ class ProgressCard extends StatelessWidget {
                 width: 60,
                 height: 60,
                 child: CircularProgressIndicator(
-                  value: 0.0,
+                  value: porcentagem,
                   strokeWidth: 6,
                   backgroundColor: Colors.white24,
                   color: Colors.greenAccent,
                 ),
               ),
-              const Text(
-                "0%",
-                style: TextStyle(
+              Text(
+                "${(porcentagem * 100).toInt()}%",
+                style: const TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
                 ),

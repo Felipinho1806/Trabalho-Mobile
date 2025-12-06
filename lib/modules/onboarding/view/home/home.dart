@@ -17,8 +17,17 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   List<TaskModel> tasks = [];
 
+  void _toggle(TaskModel task) {
+    setState(() {
+      task.concluida = !task.concluida;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    int total = tasks.length;
+    int feitas = tasks.where((t) => t.concluida).length;
+
     return Scaffold(
       backgroundColor: const Color(0xFFE8F0FF),
 
@@ -32,12 +41,16 @@ class _HomePageState extends State<HomePage> {
               const SizedBox(height: 20),
               const CategoryButtons(),
               const SizedBox(height: 20),
-              const ProgressCard(),
+
+              // CORREÇÃO: ProgressCard com parâmetros
+              ProgressCard(total: total, feitas: feitas),
+
               const SizedBox(height: 16),
               const WeekSelector(),
               const SizedBox(height: 8),
 
-              Text("Hoje (${tasks.length})",
+              Text(
+                "Hoje ($total)",
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 16,
@@ -47,7 +60,11 @@ class _HomePageState extends State<HomePage> {
 
               const SizedBox(height: 8),
 
-              TaskList(tasks: tasks), 
+              // CORREÇÃO: TaskList com callback
+              TaskList(
+                tasks: tasks,
+                onToggle: _toggle,
+              ),
             ],
           ),
         ),

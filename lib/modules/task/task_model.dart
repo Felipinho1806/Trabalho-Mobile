@@ -1,13 +1,15 @@
 class TaskModel {
   final String titulo;
-  final String categoria;
-  final String descricao;
-  final DateTime data;
+  final String? categoria;
+  final String? descricao;
+  final DateTime? data;
+  bool concluida;
 
   TaskModel({
     required this.titulo,
-    required this.categoria,
-    required this.descricao,
-    required this.data,
+    this.categoria,
+    this.descricao,
+    this.data,
+    this.concluida = false,
   });
 }
