@@ -1,8 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:teste1/modules/telas%20perfil/editar_perfil.dart';
+import 'package:teste1/modules/telas perfil/editar_perfil.dart';
+import 'post_model.dart';
+import 'post_widget.dart';
+import 'criar_post_page.dart';
 
-class TelaPerfil extends StatelessWidget {
+class TelaPerfil extends StatefulWidget {
   const TelaPerfil({super.key});
+
+  @override
+  State<TelaPerfil> createState() => _TelaPerfilState();
+}
+
+class _TelaPerfilState extends State<TelaPerfil> {
+  List<PostModel> posts = [];
+
+  void adicionarPost(PostModel post) {
+    setState(() {
+      posts.insert(0, post); // Adiciona no topo
+    });
+  }
+
+  void toggleCurtida(PostModel post) {
+    setState(() {
+      post.curtido = !post.curtido;
+      post.curtidas += post.curtido ? 1 : -1;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,6 +40,22 @@ class TelaPerfil extends StatelessWidget {
         ),
         iconTheme: const IconThemeData(color: Colors.white),
       ),
+
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: const Color(0xFF5E8BFF),
+        onPressed: () async {
+          final novoPost = await Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => const CriarPostPage()),
+          );
+
+          if (novoPost != null) {
+            adicionarPost(novoPost);
+          }
+        },
+        child: const Icon(Icons.add, color: Colors.white),
+      ),
+
       body: Column(
         children: [
           Container(
@@ -59,8 +98,9 @@ class TelaPerfil extends StatelessWidget {
             ),
           ),
 
-          const SizedBox(height: 30),
+          const SizedBox(height: 20),
 
+          // BIO
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24),
             child: Column(
@@ -87,27 +127,28 @@ class TelaPerfil extends StatelessWidget {
             ),
           ),
 
-          const SizedBox(height: 24),
+          const SizedBox(height: 20),
 
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Divider(thickness: 1, color: Colors.black12),
-                const SizedBox(height: 12),
-                const Text(
-                  "Posts",
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black87,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                Container(
-                  width: double.infinity,
-                  height: 120,
+          // POSTS
+Expanded(
+  child: Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 24),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          "Posts",
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.w600,
+            color: Colors.black87,
+          ),
+        ),
+        const SizedBox(height: 12),
+
+        Expanded(
+          child: posts.isEmpty
+              ? Container(
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(14),
@@ -125,37 +166,48 @@ class TelaPerfil extends StatelessWidget {
                       style: TextStyle(color: Colors.black54),
                     ),
                   ),
+                )
+              : ListView.builder(
+                  itemCount: posts.length,
+                  itemBuilder: (context, index) {
+                    return PostWidget(
+                      post: posts[index],
+                      onLike: () => toggleCurtida(posts[index]),
+                    );
+                  },
                 ),
-              ],
-            ),
-          ),
+        ),
+      ],
+    ),
+  ),
+),
 
-          const Spacer(),
+// ⬇️ COLE ESTE BOTÃO AQUI ⬇️
 
-          Padding(
-            padding: const EdgeInsets.only(bottom: 30),
-            child: ElevatedButton.icon(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF5E8BFF),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 40, vertical: 14),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ),
-              icon: const Icon(Icons.edit, color: Colors.white),
-              label: const Text(
-                "Editar Perfil",
-                style: TextStyle(color: Colors.white, fontSize: 16),
-              ),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const EditarPerfil()),
-                );
-              },
-            ),
-          ),
+Padding(
+  padding: const EdgeInsets.only(bottom: 20),
+  child: ElevatedButton.icon(
+    style: ElevatedButton.styleFrom(
+      backgroundColor: const Color(0xFF5E8BFF),
+      padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 14),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+    ),
+    icon: const Icon(Icons.edit, color: Colors.white),
+    label: const Text(
+      "Editar Perfil",
+      style: TextStyle(color: Colors.white, fontSize: 16),
+    ),
+    onPressed: () {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const EditarPerfil()),
+      );
+    },
+  ),
+),
+
         ],
       ),
     );
